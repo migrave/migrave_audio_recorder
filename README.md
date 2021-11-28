@@ -1,7 +1,7 @@
 # migrave_audio_recorder
 Repository for a audio recorder used in the MigrAVE project
 
-## Depedences
+## Depedencies
 Rely on `qt_respeaker_app_node` node (`/qt_respeaker_app/channel0` topic).
 
 ## Usage 
