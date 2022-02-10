@@ -42,8 +42,7 @@ class AudioCapture:
     def _audio_callback(self, data):
 
         self._audio_recorder.add_audio(
-            data.data, is_throw_error_if_not_recording=False
-        )
+            data.data, is_throw_error_if_not_recording=False)
 
     def _is_record_callback(self, data):
 
@@ -56,12 +55,10 @@ class AudioCapture:
                     file_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
                     audio_file = f"rode_{file_name}.{ext}"
                     self._audio_recorder.start_recording(
-                        out_file_name=audio_file
-                    )
+                        out_file_name=audio_file)
                 else:
                     rospy.logerr(
-                        "Recording will not happen "
-                        "due to memory limits exceeded"
+                        "Recording will not happen " "due to memory limits exceeded"
                     )
             else:
                 if self._audio_recorder._is_recording:
@@ -76,11 +73,9 @@ if __name__ == "__main__":
     # TODO parameters as ROS parameters
     audio_topic = "/audio"
     is_record_topic = "/qt_robot_audio_recording/is_record"
-    audio_rate = 16000
-    # audio_rate = 48000
-    audio_channels = 1
-    # audio_channels = 2
-    audio_width = 2
+    audio_rate = 48000  # sample rate of RØDE VideoMic NTG microphone
+    audio_channels = 2  # number of channels of RØDE microphone
+    audio_width = 3  # RØDE microphone sample format S24LE, 24/8=3
     audio_type = "wav"
     output_directory = "/home/qtrobot/Documents"
     AudioCapture(
