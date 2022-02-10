@@ -72,7 +72,7 @@ class AudioCapture:
 if __name__ == "__main__":
     # TODO parameters as ROS parameters
     audio_topic = "/audio"
-    is_record_topic = "/qt_robot_audio_recording/is_record"
+    is_record_topic = "/migrave_data_recording/is_record"
     audio_rate = 48000  # sample rate of RØDE VideoMic NTG microphone
     audio_channels = 2  # number of channels of RØDE microphone
     audio_width = 3  # RØDE microphone sample format S24LE, 24/8=3

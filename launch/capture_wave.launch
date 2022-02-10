@@ -20,4 +20,7 @@
     <param name="sample_format" value="$(arg sample_format)" />
     <param name="bitrate" value="$(arg bitrate)"/>
   </node>
+
+  <node name="migrave_audio_rode_recorder" pkg="migrave_audio_recorder" type="migrave_audio_rode_recorder.py" output="screen">
+  </node>
 </launch>

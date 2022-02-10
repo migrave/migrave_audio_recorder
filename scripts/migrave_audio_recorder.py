@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 from audio_common_msgs.msg import AudioData
@@ -75,7 +75,7 @@ class AudioCapture:
 if __name__ == "__main__":
     # TODO parameters as ROS parameters
     audio_topic = "/qt_respeaker_app/channel0"
-    is_record_topic = "/qt_robot_audio_recording/is_record"
+    is_record_topic = "/migrave_data_recording/is_record"
     audio_rate = 16000
     audio_channels = 1
     audio_width = 2
