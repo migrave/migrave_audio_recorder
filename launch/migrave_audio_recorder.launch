@@ -1,0 +1,7 @@
+<launch>
+
+  <node name="migrave_audio_recorder" pkg="migrave_audio_recorder" type="migrave_audio_recorder.py" output="screen">
+  </node>
+  <node name="migrave_audio_rode_recorder" pkg="migrave_audio_recorder" type="migrave_audio_rode_recorder.py" output="screen">
+  </node>
+</launch>
