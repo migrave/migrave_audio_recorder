@@ -1,0 +1,7 @@
+<launch>
+
+  <node name="migrave_audio_recorder" pkg="migrave_audio_recorder" type="migrave_audio_recorder" output="screen" respawn="true">
+  </node>
+  <node name="migrave_audio_rode_recorder" pkg="migrave_audio_recorder" type="migrave_audio_rode_recorder" output="screen" respawn="true">
+  </node>
+</launch>
