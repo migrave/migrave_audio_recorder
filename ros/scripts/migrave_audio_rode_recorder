@@ -77,7 +77,7 @@ if __name__ == "__main__":
     audio_channels = 2  # number of channels of RØDE microphone
     audio_width = 3  # RØDE microphone sample format S24LE, 24/8=3
     audio_type = "wav"
-    output_directory = "/home/qtrobot/Documents"
+    output_directory = "/home/qtrobot/Documents/migrave"
     AudioCapture(
         is_record_topic=is_record_topic,
         audio_topic=audio_topic,

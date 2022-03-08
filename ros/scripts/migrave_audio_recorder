@@ -80,7 +80,7 @@ if __name__ == "__main__":
     audio_channels = 1
     audio_width = 2
     audio_type = "wav"
-    output_directory = "/home/qtrobot/Documents"
+    output_directory = "/home/qtrobot/Documents/migrave"
     AudioCapture(
         is_record_topic=is_record_topic,
         audio_topic=audio_topic,
