@@ -4,6 +4,7 @@ import rospy
 from audio_common_msgs.msg import AudioData
 from std_msgs.msg import Bool
 from datetime import datetime
+import os
 
 from audio_recorder.audio_recorder import AudioRecorder
 
@@ -20,7 +21,6 @@ class AudioCapture:
         out_directory,
     ):
 
-        rospy.init_node("migrave_audio_rode_recorder", anonymous=True)
         self._audio_recorder = AudioRecorder(
             audio_rate=audio_rate,
             audio_channels=audio_channels,
@@ -42,7 +42,8 @@ class AudioCapture:
     def _audio_callback(self, data):
 
         self._audio_recorder.add_audio(
-            data.data, is_throw_error_if_not_recording=False)
+            data.data, is_throw_error_if_not_recording=False
+        )
 
     def _is_record_callback(self, data):
 
@@ -53,12 +54,14 @@ class AudioCapture:
                     rospy.loginfo("Starting to record audio")
                     ext = self._audio_recorder._audio_type
                     file_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-                    audio_file = f"rode_{file_name}.{ext}"
+                    audio_file = f"{file_name}.{ext}"
                     self._audio_recorder.start_recording(
-                        out_file_name=audio_file)
+                        out_file_name=audio_file
+                    )
                 else:
                     rospy.logerr(
-                        "Recording will not happen " "due to memory limits exceeded"
+                        "Recording will not happen "
+                        "due to memory limits exceeded"
                     )
             else:
                 if self._audio_recorder._is_recording:
@@ -70,14 +73,21 @@ class AudioCapture:
 
 
 if __name__ == "__main__":
-    # TODO parameters as ROS parameters
-    audio_topic = "/audio"
-    is_record_topic = "/migrave_data_recording/is_record"
-    audio_rate = 48000  # sample rate of RØDE VideoMic NTG microphone
-    audio_channels = 2  # number of channels of RØDE microphone
-    audio_width = 3  # RØDE microphone sample format S24LE, 24/8=3
-    audio_type = "wav"
-    output_directory = "/home/qtrobot/Documents/migrave"
+    rospy.init_node("migrave_audio_recorder", anonymous=True)
+    node_name = rospy.get_name()
+    path = rospy.get_param(node_name+'/output_directory', "/home/qtrobot/1/audio/")
+    audio_topic = rospy.get_param(node_name+'/channel_topic', "/qt_respeaker_app/channel0")
+    is_record_topic = rospy.get_param(node_name+'/is_record_topic', "/qt_robot_audio_recording/is_record")
+    audio_rate = rospy.get_param(node_name+'/audio_rate', 16000)
+    audio_channels = rospy.get_param(node_name+'/audio_channel', 1)
+    audio_width = rospy.get_param(node_name+'/audio_width', 2)
+    audio_type = rospy.get_param(node_name+'audio_type', "wav")
+
+    try:
+        os.makedirs(path)
+    except FileExistsError as err:
+        print(f"WARNING: Directory {path} already exists")
+
     AudioCapture(
         is_record_topic=is_record_topic,
         audio_topic=audio_topic,
@@ -85,7 +95,7 @@ if __name__ == "__main__":
         audio_channels=audio_channels,
         audio_width=audio_width,
         audio_type=audio_type,
-        out_directory=output_directory,
+        out_directory=path,
     )
 
     rospy.spin()
