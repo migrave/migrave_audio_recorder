@@ -20,6 +20,11 @@ class AudioRecorder:
         self._out_directory = out_directory
 
         self._is_recording = False
+        self._timestamp_writer = None
+
+    def __del__(self):
+        if self._timestamp_writer is not None:
+            self._timestamp_writer.close()
 
     def start_recording(self, out_file_name=None):
 
@@ -49,6 +54,7 @@ class AudioRecorder:
             stamp = int(datetime.datetime.timestamp(now) * 1000000)
             file_name = f"{time}_{stamp}"
             out_file_name = f"{file_name}.{ext}"
+            timestamp_file_name = f"{file_name}.txt"
 
         out_file_path = Path(self._out_directory_id) / out_file_name
         out_file_path = str(out_file_path)
@@ -56,10 +62,21 @@ class AudioRecorder:
         self._wf.setnchannels(self._audio_channels)
         self._wf.setsampwidth(self._audio_width)
         self._wf.setframerate(self._audio_rate)
+
+        timestamp_file_name = out_file_path[:-3] + 'txt'
+        self._timestamp_writer = open(timestamp_file_name, "a")
+
         self._is_recording = True
 
     def add_audio(self, audio, is_throw_error_if_not_recording=True):
         if self._is_recording:
+
+            now = datetime.datetime.now()
+            # unixtimestamp 16 digits
+            timestamp = int(datetime.datetime.timestamp(now) * 1000000)
+            timestamp = str(timestamp) + "\n"
+            self._timestamp_writer.write(timestamp)
+
             self._wf.writeframes(audio)
         else:
             if is_throw_error_if_not_recording:
@@ -70,4 +87,8 @@ class AudioRecorder:
             raise RuntimeError("Audio recording was not started")
 
         self._wf.close()
+
+        if self._timestamp_writer is not None:
+            self._timestamp_writer.close()
+
         self._is_recording = False
