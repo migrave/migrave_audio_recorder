@@ -34,3 +34,24 @@ Stop recording
 ```sh
 rostopic pub /migrave_data_recorder/is_record std_msgs/Bool "False"
 ```
+
+## Project structure
+```
+.
+├── CMakeLists.txt
+├── LICENSE
+├── README.md
+├── package.xml
+├── ros
+│   ├── launch
+│   │   ├── migrave_audio_recorder.launch
+│   │   └── usb_microphone.launch
+│   ├── scripts
+│   │   ├── migrave_audio_recorder
+│   │   └── migrave_audio_rode_recorder
+│   └── src
+│       └── audio_recorder
+│           ├── __init__.py
+│           └── audio_recorder.py
+└── setup.py
+```
